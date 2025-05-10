@@ -128,19 +128,24 @@
     }
 
     // Zkontroluj heslo
-    function kontrolaHesla() {
-      const h = heslo.value;
-      const podminka = h.length >= 8 && /[A-Z]/.test(h) && /\d/.test(h) && /[@!#$%^&*]/.test(h);
-      if (podminka) {
-        chybaHeslo.textContent = "";
-        heslo.classList.remove("invalid");
-        return true;
-      } else {
-        chybaHeslo.textContent = "Heslo musí mít 8 znaků, velké písmeno, číslo a speciální znak.";
-        heslo.classList.add("invalid");
-        return false;
-      }
-    }
+   function kontrolaHesla() {
+  const h = heslo.value;
+  const podminka = h.length >= 8 &&
+                   /[A-Z]/.test(h) &&     // velké písmeno
+                   /\d/.test(h) &&        // číslo
+                   /[^A-Za-z0-9]/.test(h); // speciální znak
+
+  if (podminka) {
+    chybaHeslo.textContent = "";
+    heslo.classList.remove("invalid");
+    return true;
+  } else {
+    chybaHeslo.textContent = "Heslo musí mít 8 znaků, velké písmeno, číslo a speciální znak.";
+    heslo.classList.add("invalid");
+    return false;
+  }
+}
+
 
     function zkontrolujVse() {
       const platne = kontrolaJmena() && kontrolaEmailu() && kontrolaHesla();
