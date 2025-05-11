@@ -101,8 +101,8 @@
     const chybaHeslo = document.getElementById("chybaHeslo");
     const vzkaz = document.getElementById("vzkaz");
 
-    // Zkontroluj jméno
-    function kontrolaJmena() {
+    // Zkontroluj jméno 
+    function kontrolaJmena() {  //funkce zjisti jestli si napsal 2 jmena
       if (jmeno.value.trim().split(" ").length >= 2) {
         chybaJmeno.textContent = "";
         jmeno.classList.remove("invalid");
@@ -114,7 +114,7 @@
       }
     }
 
-    // Zkontroluj e-mail
+    // Zkontroluje e-mail  jestli je tam zavinac a tecka pokud neni tak se zobrazi sprava email neni spravny 
     function kontrolaEmailu() {
       if (email.value.includes("@") && email.value.includes(".")) {
         chybaEmail.textContent = "";
@@ -127,13 +127,13 @@
       }
     }
 
-    // Zkontroluj heslo
+    // Zkontroluj heslo 
    function kontrolaHesla() {
   const h = heslo.value;
   const podminka = h.length >= 8 &&
-                   /[A-Z]/.test(h) &&     // velké písmeno
+                   /[A-Z]/.test(h) &&     // velké písmeno 
                    /\d/.test(h) &&        // číslo
-                   /[^A-Za-z0-9]/.test(h); // speciální znak
+                   /[^A-Za-z0-9]/.test(h); // speciální znak to mas treba od emailu takovy to a
 
   if (podminka) {
     chybaHeslo.textContent = "";
