@@ -1,9 +1,9 @@
 
 <!DOCTYPE html> 
-<html lang="cs"> 
+<html lang="cs"> <!-- Jazyk je čeština  -->
 <head>
-  <meta charset="UTF-8">
-  <title>Registrace </title>
+  <meta charset="UTF-8"> <!-- Čeština + speciální znaky -->
+  <title>Registrace </title> 
   <style>  <!-- vzhled stranky pismo arial barva bílá  -->
     body { 
       font-family: Arial, sans-serif;
@@ -13,15 +13,15 @@
       padding: 20px;
     }
 
-    form {  
-      background-color: #222;
+    form { //styl formulaře 
+      background-color: #222; //tmave pozadi
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 10px; // neostre rohy
       display: inline-block;
       margin-top: 20px;
     }
 
-    input {
+    input {  // styl vztupu 
       display: block;
       width: 250px;
       margin: 10px auto;
@@ -30,37 +30,37 @@
       border-radius: 5px;
     }
 
-    input.invalid {
+    input.invalid { // pokud napiseš neco blbě zobrazí se zprava v červené  barvě
       border: 2px solid red;
     }
 
-    .error {
+    .error { // jak vypadá chabná zpráva
       color: red;
       font-size: 0.8em;
     }
 
-    button {
+    button { // jak vypadá styl toho tlačítka 
       padding: 10px;
       width: 100%;
-      background-color: #4CAF50;
+      background-color: #4CAF50; // zelená barva 
       border: none;
       color: white;
       font-weight: bold;
       border-radius: 5px;
     }
 
-    button:disabled {
+    button:disabled { // styl tlačitka když si zpravně nedoplnil heslo jmeno a email -neaktivni 
       background-color: #777;
     }
 
-    .heisenberg {
+    .heisenberg { // jak vypada legendarni reference z breaking bad 
       font-family: 'Courier New', Courier, monospace;
       font-size: 22px;
       margin-top: 30px;
       color: lime;
     }
 
-    .quote {
+    .quote {  // sedy, pismo italic 
       font-style: italic;
       margin-top: 5px;
       color: gray;
@@ -69,28 +69,32 @@
 </head>
 <body>
 
-  <h1>Registrace</h1>
+  <h1>Registrace</h1>  <!-- main nadpis -->
 
-  <form id="formular">
-    <input type="text" id="jmeno" placeholder="Tvoje jméno">
+  <form id="formular">  <!-- Formulář pro zadání údajů -->
+     <!-- input musi mit dvě slova  -->
+    <input type="text" id="jmeno" placeholder="Tvoje jméno">  
     <div class="error" id="chybaJmeno"></div>
 
+    <!-- E-mail: email musi byt zpravně napsany s tečkou a zavináč -->
     <input type="email" id="email" placeholder="Tvoje e-mailová adresa">
     <div class="error" id="chybaEmail"></div>
 
+    <!-- zkontoluje jestli je heslo tak jak má být -->
     <input type="password" id="heslo" placeholder="Tvé heslo">
     <div class="error" id="chybaHeslo"></div>
-
+ <!-- pokud je všechno alright tak se tlačítko povolí  -->
     <button id="tlacitko" disabled>Registrovat se</button>
   </form>
-
+ <!--vzkaz po registraci -->
   <div id="vzkaz"></div>
 
-  <!-- Breaking Bad Reference -->
+  <!-- Breaking Bad Reference  -->
   <div class="heisenberg">Heisenberg</div>
   <div class="quote">„I am the one who knocks.“</div>
 
-  <script>
+  <script>  <!-- kod je v javascriptu  -->
+     <!-- zde se uloží const jmen do promene -->
     const jmeno = document.getElementById("jmeno");
     const email = document.getElementById("email");
     const heslo = document.getElementById("heslo");
@@ -101,7 +105,7 @@
     const chybaHeslo = document.getElementById("chybaHeslo");
     const vzkaz = document.getElementById("vzkaz");
 
-    // Zkontroluj jméno 
+    // funkce ktera kontoluje jmeno aby meli 2 jmena
     function kontrolaJmena() {  //funkce zjisti jestli si napsal 2 jmena
       if (jmeno.value.trim().split(" ").length >= 2) {
         chybaJmeno.textContent = "";
@@ -130,7 +134,7 @@
     // Zkontroluj heslo 
    function kontrolaHesla() {
   const h = heslo.value;
-  const podminka = h.length >= 8 &&
+  const podminka = h.length >= 8 &&           // musi mit 8 mist
                    /[A-Z]/.test(h) &&     // velké písmeno 
                    /\d/.test(h) &&        // číslo
                    /[^A-Za-z0-9]/.test(h); // speciální znak to mas treba od emailu takovy to a
@@ -146,24 +150,24 @@
   }
 }
 
-
-    function zkontrolujVse() {
+  // zkontoluje všechny pozadavky a tlacitko.disabled se aktivuje takže se registrace povedla
+    function zkontrolujVse() { 
       const platne = kontrolaJmena() && kontrolaEmailu() && kontrolaHesla();
       tlacitko.disabled = !platne;
     }
-
+    // sleduje změny v formuláři
     jmeno.addEventListener("input", zkontrolujVse);
     email.addEventListener("input", zkontrolujVse);
     heslo.addEventListener("input", zkontrolujVse);
 
-    // Po odeslání
+    // Po odeslání se uloží data do localstorage 
     document.getElementById("formular").addEventListener("submit", function(e) {
       e.preventDefault();
       localStorage.setItem("jmeno", jmeno.value.split(" ")[0]);
       vzkaz.textContent = "Registrace proběhla úspěšně. Vítej, " + localStorage.getItem("jmeno") + "!";
     });
 
-    // Zobrazit jméno při obnovení stránky
+    // Zobrazit jméno při obnovení stránky podle dat v localstorage 
     if (localStorage.getItem("jmeno")) {
       vzkaz.textContent = "Vítej zpět, " + localStorage.getItem("jmeno") + "!";
     }
