@@ -4,24 +4,31 @@
 <head>
   <meta charset="UTF-8"> <!-- Čeština + speciální znaky -->
   <title>Registrace </title> 
-  <style>  <!-- vzhled stranky pismo arial barva bílá  -->
+  <style>  /* vzhled stranky pismo arial barva bílá  */
     body { 
-      font-family: Arial, sans-serif;
+      font-family: Arial, sans-serif;  
       background-color: #ffffff;
       color: #000;
       text-align: center;
       padding: 20px;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    form { //styl formulaře 
-      background-color: #222; //tmave pozadi
+    form { /* styl formulaře */ 
+      background-color: #222; /* tmave pozadi */
       padding: 20px;
-      border-radius: 10px; // neostre rohy
+      border-radius: 10px; /* neostre rohy */
       display: inline-block;
       margin-top: 20px;
+      color: white;
     }
 
-    input {  // styl vztupu 
+    input {  /* styl vztupu */ 
       display: block;
       width: 250px;
       margin: 10px auto;
@@ -30,37 +37,38 @@
       border-radius: 5px;
     }
 
-    input.invalid { // pokud napiseš neco blbě zobrazí se zprava v červené  barvě
+    input.invalid { /* pokud napiseš neco blbě zobrazí se zprava v červené  barvě */
       border: 2px solid red;
     }
 
-    .error { // jak vypadá chabná zpráva
+    .error { /* jak vypadá chabná zpráva */
       color: red;
       font-size: 0.8em;
     }
 
-    button { // jak vypadá styl toho tlačítka 
+    button { /* jak vypadá styl toho tlačítka */ 
       padding: 10px;
       width: 100%;
-      background-color: #4CAF50; // zelená barva 
+      background-color: #4CAF50; /* zelená barva */ 
       border: none;
       color: white;
       font-weight: bold;
       border-radius: 5px;
+      cursor: pointer;
     }
 
-    button:disabled { // styl tlačitka když si zpravně nedoplnil heslo jmeno a email -neaktivni 
+    button:disabled { /* styl tlačitka když si zpravně nedoplnil heslo jmeno a email -neaktivni */ 
       background-color: #777;
     }
 
-    .heisenberg { // jak vypada legendarni reference z breaking bad 
+    .heisenberg { /* jak vypada legendarni reference z breaking bad */ 
       font-family: 'Courier New', Courier, monospace;
       font-size: 22px;
       margin-top: 30px;
       color: lime;
     }
 
-    .quote {  // sedy, pismo italic 
+    .quote {  /* sedy, pismo italic */ 
       font-style: italic;
       margin-top: 5px;
       color: gray;
@@ -83,18 +91,20 @@
     <!-- zkontoluje jestli je heslo tak jak má být -->
     <input type="password" id="heslo" placeholder="Tvé heslo">
     <div class="error" id="chybaHeslo"></div>
- <!-- pokud je všechno alright tak se tlačítko povolí  -->
+    <!-- pokud je všechno alright tak se tlačítko povolí  -->
     <button id="tlacitko" disabled>Registrovat se</button>
   </form>
- <!--vzkaz po registraci -->
+
+  <!--vzkaz po registraci -->
   <div id="vzkaz"></div>
 
   <!-- Breaking Bad Reference  -->
   <div class="heisenberg">Heisenberg</div>
   <div class="quote">„I am the one who knocks.“</div>
 
-  <script>  <!-- kod je v javascriptu  -->
-     <!-- zde se uloží const jmen do promene -->
+  <script>  /* kod je v javascriptu  */
+
+    /* zde se uloží const jmen do promene */
     const jmeno = document.getElementById("jmeno");
     const email = document.getElementById("email");
     const heslo = document.getElementById("heslo");
@@ -105,72 +115,4 @@
     const chybaHeslo = document.getElementById("chybaHeslo");
     const vzkaz = document.getElementById("vzkaz");
 
-    // funkce ktera kontoluje jmeno aby meli 2 jmena
-    function kontrolaJmena() {  //funkce zjisti jestli si napsal 2 jmena
-      if (jmeno.value.trim().split(" ").length >= 2) {
-        chybaJmeno.textContent = "";
-        jmeno.classList.remove("invalid");
-        return true;
-      } else {
-        chybaJmeno.textContent = "Napiš aspoň dvě slova.";
-        jmeno.classList.add("invalid");
-        return false;
-      }
-    }
-
-    // Zkontroluje e-mail  jestli je tam zavinac a tecka pokud neni tak se zobrazi sprava email neni spravny 
-    function kontrolaEmailu() {
-      if (email.value.includes("@") && email.value.includes(".")) {
-        chybaEmail.textContent = "";
-        email.classList.remove("invalid");
-        return true;
-      } else {
-        chybaEmail.textContent = "E-mail není správný.";
-        email.classList.add("invalid");
-        return false;
-      }
-    }
-
-    // Zkontroluj heslo 
-   function kontrolaHesla() {
-  const h = heslo.value;
-  const podminka = h.length >= 8 &&           // musi mit 8 mist
-                   /[A-Z]/.test(h) &&     // velké písmeno 
-                   /\d/.test(h) &&        // číslo
-                   /[^A-Za-z0-9]/.test(h); // speciální znak to mas treba od emailu takovy to a
-
-  if (podminka) {
-    chybaHeslo.textContent = "";
-    heslo.classList.remove("invalid");
-    return true;
-  } else {
-    chybaHeslo.textContent = "Heslo musí mít 8 znaků, velké písmeno, číslo a speciální znak.";
-    heslo.classList.add("invalid");
-    return false;
-  }
-}
-
-  // zkontoluje všechny pozadavky a tlacitko.disabled se aktivuje takže se registrace povedla
-    function zkontrolujVse() { 
-      const platne = kontrolaJmena() && kontrolaEmailu() && kontrolaHesla();
-      tlacitko.disabled = !platne;
-    }
-    // sleduje změny v formuláři
-    jmeno.addEventListener("input", zkontrolujVse);
-    email.addEventListener("input", zkontrolujVse);
-    heslo.addEventListener("input", zkontrolujVse);
-
-    // Po odeslání se uloží data do localstorage 
-    document.getElementById("formular").addEventListener("submit", function(e) {
-      e.preventDefault();
-      localStorage.setItem("jmeno", jmeno.value.split(" ")[0]);
-      vzkaz.textContent = "Registrace proběhla úspěšně. Vítej, " + localStorage.getItem("jmeno") + "!";
-    });
-
-    // Zobrazit jméno při obnovení stránky podle dat v localstorage 
-    if (localStorage.getItem("jmeno")) {
-      vzkaz.textContent = "Vítej zpět, " + localStorage.getItem("jmeno") + "!";
-    }
-  </script>
-</body>
-</html>
+    /* funkce ktera kontoluje jmeno aby meli 2 j*
