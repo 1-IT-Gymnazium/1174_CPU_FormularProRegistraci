@@ -1,4 +1,3 @@
-
 <!DOCTYPE html> 
 <html lang="cs"> <!-- Jazyk je čeština  -->
 <head>
@@ -115,4 +114,74 @@
     const chybaHeslo = document.getElementById("chybaHeslo");
     const vzkaz = document.getElementById("vzkaz");
 
-    /* funkce ktera kontoluje jmeno aby meli 2 j*
+    /* funkce ktera kontoluje jmeno aby meli 2 jmena */
+    function kontrolaJmena() {  /* funkce zjisti jestli si napsal 2 jmena */
+      if (jmeno.value.trim().split(" ").length >= 2) {
+        chybaJmeno.textContent = "";
+        jmeno.classList.remove("invalid");
+        return true;
+      } else {
+        chybaJmeno.textContent = "Napiš aspoň dvě slova.";
+        jmeno.classList.add("invalid");
+        return false;
+      }
+    }
+
+    /* Zkontroluje e-mail  jestli je tam zavinac a tecka pokud neni tak se zobrazi sprava email neni spravny */
+    function kontrolaEmailu() {
+      if (email.value.includes("@") && email.value.includes(".")) {
+        chybaEmail.textContent = "";
+        email.classList.remove("invalid");
+        return true;
+      } else {
+        chybaEmail.textContent = "E-mail není správný.";
+        email.classList.add("invalid");
+        return false;
+      }
+    }
+
+    /* Zkontroluj heslo */
+    function kontrolaHesla() {
+      const h = heslo.value;
+      const podminka = h.length >= 8 &&           /* musi mit 8 mist */
+                       /[A-Z]/.test(h) &&         /* velké písmeno */ 
+                       /\d/.test(h) &&            /* číslo */
+                       /[^A-Za-z0-9]/.test(h);    /* speciální znak to mas treba od emailu takovy to a */
+
+      if (podminka) {
+        chybaHeslo.textContent = "";
+        heslo.classList.remove("invalid");
+        return true;
+      } else {
+        chybaHeslo.textContent = "Heslo musí mít 8 znaků, velké písmeno, číslo a speciální znak.";
+        heslo.classList.add("invalid");
+        return false;
+      }
+    }
+
+    /* zkontoluje všechny pozadavky a tlacitko.disabled se aktivuje takže se registrace povedla */
+    function zkontrolujVse() { 
+      const platne = kontrolaJmena() && kontrolaEmailu() && kontrolaHesla();
+      tlacitko.disabled = !platne;
+    }
+
+    /* sleduje změny v formuláři */
+    jmeno.addEventListener("input", zkontrolujVse);
+    email.addEventListener("input", zkontrolujVse);
+    heslo.addEventListener("input", zkontrolujVse);
+
+    /* Po odeslání se uloží data do localstorage */
+    document.getElementById("formular").addEventListener("submit", function(e) {
+      e.preventDefault();
+      localStorage.setItem("jmeno", jmeno.value.split(" ")[0]);
+      vzkaz.textContent = "Registrace proběhla úspěšně. Vítej, " + localStorage.getItem("jmeno") + "!";
+    });
+
+    /* Zobrazit jméno při obnovení stránky podle dat v localstorage */ 
+    if (localStorage.getItem("jmeno")) {
+      vzkaz.textContent = "Vítej zpět, " + localStorage.getItem("jmeno") + "!";
+    }
+  </script>
+</body>
+</html>
+
