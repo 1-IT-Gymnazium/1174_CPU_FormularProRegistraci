@@ -4,16 +4,16 @@
 <head>
   <meta charset="UTF-8">
   <title>Registrace </title>
-  <style>
-    body {
+  <style>  <!-- vzhled stranky pismo arial barva bílá  -->
+    body { 
       font-family: Arial, sans-serif;
       background-color: #ffffff;
-      color: #fff;
+      color: #000;
       text-align: center;
       padding: 20px;
     }
 
-    form {
+    form {  
       background-color: #222;
       padding: 20px;
       border-radius: 10px;
